@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <main> 
+        <!-- Trending Area Start -->
+            {% include 'partials/trending.html' %}
+        <!-- Trending Area End -->
+
+        <!--   Weekly-News start -->
+            {% include 'partials/weekly_top_news_1.html' %}         
+        <!-- End Weekly-News -->
+
+        <!--   Weekly2-News start -->
+            {% include 'partials/weekly_top_news_2.html' %}      
+        <!-- End Weekly-News -->
+    
+        <!-- Start Youtube -->
+            <!-- {% include 'partials/video_news.html' %} -->
+        <!-- End Start youtube -->
+
+        <!--  Recent Articles start -->
+            {% include 'partials/recent_articles.html' %}         
+        <!--Recent Articles End -->
+
+        <!--Start pagination -->
+            <!-- {% include 'partials/pagination.html' %} -->
+        <!-- End pagination  -->
+    </main>
+
+{% endblock %}

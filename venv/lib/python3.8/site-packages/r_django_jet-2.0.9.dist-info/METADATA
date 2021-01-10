@@ -1,0 +1,154 @@
+Metadata-Version: 2.1
+Name: r-django-jet
+Version: 2.0.9
+Summary: Modern template for Django admin interface with improved functionality
+Home-page: https://github.com/RamsesMartinez/django-jet
+Author: Ramses Martinez
+Author-email: ramses.mtz96@gmail.com
+License: AGPLv3
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Framework :: Django
+Classifier: License :: Free for non-commercial use
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Environment :: Web Environment
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: User Interfaces
+Requires-Dist: Django
+
+==========
+Django JET
+==========
+
+.. image:: https://travis-ci.org/geex-arts/django-jet.svg?branch=master
+    :target: https://travis-ci.org/geex-arts/django-jet
+
+**Modern template for Django admin interface with improved functionality**
+
+.. note:: Fork made from https://github.com/geex-arts/django-jet
+
+Installation
+============
+
+* Download and install latest version of Django JET:
+
+.. code:: python
+
+    pip install r-django-jet
+
+
+* Add 'jet' application to the INSTALLED_APPS setting of your Django project settings.py file (note it should be before 'django.contrib.admin'):
+
+.. code:: python
+
+    INSTALLED_APPS = (
+        ...
+        'jet',
+        'django.contrib.admin',
+    )
+
+* Make sure ``django.template.context_processors.request`` context processor is enabled in settings.py (Django 1.8+ way):
+
+.. code:: python
+
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    ...
+                    'django.template.context_processors.request',
+                    ...
+                ],
+            },
+        },
+    ]
+
+* Add URL-pattern to the urlpatterns of your Django project urls.py file (they are needed for related–lookups and autocompletes):
+
+.. code:: python
+
+    urlpatterns = patterns(
+        '',
+        path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
+        path('admin/', include(admin.site.urls)),
+        ...
+    )
+
+* Create database tables:
+
+.. code:: python
+
+    python manage.py migrate jet
+
+* Collect static if you are in production environment:
+
+.. code:: python
+
+        python manage.py collectstatic
+
+* Clear your browser cache
+
+Dashboard installation
+======================
+
+.. note:: Dashboard is located into a separate application. So after a typical JET installation it won't be active.
+          To enable dashboard application follow these steps:
+
+* Add 'jet.dashboard' application to the INSTALLED_APPS setting of your Django project settings.py file (note it should be before 'jet'):
+
+.. code:: python
+
+    INSTALLED_APPS = (
+        ...
+        'jet.dashboard',
+        'jet',
+        'django.contrib.admin',
+        ...
+    )
+
+* Add URL-pattern to the urlpatterns of your Django project urls.py file (they are needed for related–lookups and autocompletes):
+
+.. code:: python
+
+    urlpatterns = patterns(
+        '',
+        path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
+        path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+        path('admin/', include(admin.site.urls)),
+        ...
+    )
+
+* **For Google Analytics widgets only** install python package:
+
+.. code:: python
+
+    pip install google-api-python-client==1.4.1
+
+* Create database tables:
+
+.. code:: python
+
+    python manage.py migrate dashboard
+
+* Collect static if you are in production environment:
+
+.. code:: python
+
+        python manage.py collectstatic
+
+
+
+
+

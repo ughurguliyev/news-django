@@ -1,0 +1,9 @@
+postgredb/
+redisdb/
+.venv/
+.idea/
+*.pyc
+*.log
+news/db.sqlite3
+news/media
+.git

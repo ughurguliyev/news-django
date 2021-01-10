@@ -1,0 +1,60 @@
+{% load static %}
+
+<div class="trending-area fix">
+    <div class="container">
+        <div class="trending-main">
+            <!-- Trending Tittle -->
+
+            {% include 'partials/trending_now.html' %}
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Trending Top -->
+                    <div class="trending-top mb-30">
+                        <div class="trend-top-img">
+                            <img src="{{ trending_article_top.cover_img.url }}" alt="">
+                            <div class="trend-top-cap">
+                                <span>{% for category in trending_article_top.categories.all %} {{ category.name }} {% endfor %}</span>
+                                <h2><a href="{% url 'article-detail-page' trending_article_top.slug %}">{{ trending_article_top.title }}<br></a></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Trending Bottom -->
+                    <div class="trending-bottom">
+                        <div class="row">
+                            {% for article in trending_articles_bottom %}
+                            <div class="col-lg-4">
+                            <div class="single-bottom mb-35">
+                                <div class="trend-bottom-img mb-30">
+                                    <img src="{{ article.cover_img.url }}" alt="" style='width:200px; height:130px'>
+                                </div>
+                                <div class="trend-bottom-cap">
+                                    <span class="color1">{% for category in article.categories.all %} {{ category.name }} {% endfor %}</span>
+                                    <h4><a href="{% url 'article-detail-page' article.slug %}">{{ article.title }}</a></h4>
+                                </div>
+                            </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- Right content -->
+                <div class="col-lg-4">
+                    {% for article in trending_articles_right %}
+                    <div class="trand-right-single d-flex">
+                        <div class="trand-right-img">
+                            <img src="{{ article.cover_img.url }}" alt="" style='width:200px; height:130px'>
+                        </div>
+                        <div class="trand-right-cap">
+                            <span class="color1">{% for category in article.categories.all %} 
+                                {{ category.name }} 
+                            {% endfor %}</span>
+                            <h4><a href="{% url 'article-detail-page' article.slug %}">{{ article.title }}</a></h4>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

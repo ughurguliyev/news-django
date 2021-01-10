@@ -1,0 +1,56 @@
+{% block whats_new %}
+{% load static %}
+
+<section class="whats-news-area pt-50 pb-20">
+    <div class="container">
+        <div class="row">
+        <div class="col-lg-8">
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- Nav Card -->
+                    <div class="tab-content" id="nav-tabContent">
+                        <!-- card one -->
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">           
+                            <div class="whats-news-caption">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="section-tittle mb-30">
+                                            <h3>Weekly Top News</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    {% for article in first_weekly_news %}
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="single-what-news mb-100">
+                                            <div class="what-img">
+                                                <img src="{{ article.cover_img.url }}" alt="">
+                                            </div>
+                                            <div class="what-cap">
+                                                <span class="color1">{% for cat in article.categories.all %} 
+                                                    {% if forloop.last %} {{ cat }} {% else %} {{ cat }} , {% endif %} 
+                                                {% endfor %} </span>
+                                                <h4><a href="{% url 'article-detail-page' article.slug %}">{{ article.title }}</a></h4>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    {% endfor %}                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- End Nav Card -->
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="news-poster d-none d-lg-block">
+                <img src="{% static 'assets/img/news/news_card.jpg' %}" alt="">
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

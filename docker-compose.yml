@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: "always"
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./_nginx/vhost/:/etc/nginx/vhost.d:ro
+      - ./_nginx/conf.d/client_max_body_size.conf:/etc/nginx/conf.d/client_max_body_size.conf:ro
+      - ./news/static:/code/static
+      - ./news/media:/code/media
+
+
+  postgres:
+    container_name:  postgres-db
+    image:           postgres:9.6
+    ports:
+      - 5432:5432 # Bind host port 5432 to PostgreSQL port 5432
+    volumes:
+      - ./postgredb:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      - LC_ALL=C.UTF-8
+
+  web:
+    container_name: news
+    build: .
+    restart: "always"
+    env_file: .env
+    environment:
+      - VIRTUAL_HOST=news.com, news.localhost, localhost
+      - VIRTUAL_PORT=443
+      - HTTP_PORT=8000
+      - STATS_PORT=8001
+      - DEBUG=True
+    command: [ "uwsgi", "--ini", "/conf/uwsgi.ini"]
+    volumes:
+      - ./news:/code
+      - ./uwsgi.ini:/conf/uwsgi.ini
+    ports:
+      - "8000:8000"
+    links:
+      - postgres
+    depends_on:
+      - "postgres"
+
+  celery:
+    container_name: celery
+    build: .
+    restart: "always"
+    env_file: .env
+    environment:
+      - DEBUG=True
+    command: celery --app=......
+    volumes:
+      - ./news:/code
+      - ./uwsgi.ini:/conf/uwsgi.ini
+    ports:
+      - "8000:8000"
+    links:
+      - postgres
+    depends_on:
+      - "postgres"
+
+  redis:
+    image: redis:4.0.11
+    restart: "on-failure"
+    container_name: redis
+    env_file: .env
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redisdb:/var/lib/redis
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
